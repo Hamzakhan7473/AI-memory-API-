@@ -1,0 +1,23 @@
+.memory-form {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.file-info {
+  margin-top: 8px;
+  padding: 8px;
+  background: #e9ecef;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #666;
+}
+
+.success {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 12px;
+  border-radius: 4px;
+  margin: 15px 0;
+  border: 1px solid #c3e6cb;
+}
+

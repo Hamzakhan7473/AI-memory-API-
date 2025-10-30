@@ -1,0 +1,129 @@
+.memory-search {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.search-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.search-results {
+  margin-top: 20px;
+}
+
+.search-meta {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  color: #666;
+  font-size: 14px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 15px;
+}
+
+.results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.result-item {
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 4px;
+  border-left: 4px solid #61dafb;
+}
+
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.result-id {
+  font-family: monospace;
+  font-size: 12px;
+  color: #666;
+}
+
+.similarity-badge {
+  padding: 4px 8px;
+  background: #61dafb;
+  color: white;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.result-content {
+  margin-bottom: 10px;
+  color: #333;
+  line-height: 1.6;
+}
+
+.result-meta {
+  display: flex;
+  gap: 15px;
+  font-size: 12px;
+  color: #666;
+}
+
+.relationships-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.relationship-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 4px;
+}
+
+.relationship-type {
+  padding: 4px 8px;
+  background: #61dafb;
+  color: white;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  min-width: 80px;
+  text-align: center;
+}
+
+.relationship-link {
+  flex: 1;
+  font-family: monospace;
+  font-size: 12px;
+  color: #666;
+}
+
+.relationship-confidence {
+  color: #666;
+  font-size: 12px;
+}
+
+.badge-success,
+.badge-outdated {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+}
+
+.badge-success {
+  background: #28a745;
+  color: white;
+}
+
+.badge-outdated {
+  background: #dc3545;
+  color: white;
+}
+

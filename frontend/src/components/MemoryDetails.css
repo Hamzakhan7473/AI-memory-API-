@@ -1,0 +1,146 @@
+.memory-details-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.memory-details-panel {
+  background: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.memory-details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.memory-details-header h2 {
+  margin: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 32px;
+  cursor: pointer;
+  color: #999;
+  line-height: 1;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+}
+
+.close-btn:hover {
+  color: #333;
+}
+
+.memory-details-content {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.detail-section {
+  margin-bottom: 20px;
+}
+
+.detail-section label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.detail-value {
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 4px;
+  color: #555;
+}
+
+.content-box {
+  max-height: 200px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.badge-success {
+  display: inline-block;
+  padding: 4px 8px;
+  background: #28a745;
+  color: white;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.badge-outdated {
+  display: inline-block;
+  padding: 4px 8px;
+  background: #dc3545;
+  color: white;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.related-memories {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.related-memory-item {
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #f9f9f9;
+  border-radius: 4px;
+  border-left: 3px solid #61dafb;
+}
+
+.lineage {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.lineage-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 4px;
+  border-left: 4px solid #61dafb;
+}
+
+.lineage-version {
+  font-weight: bold;
+  color: #61dafb;
+  min-width: 40px;
+}
+
+.lineage-content {
+  flex: 1;
+  color: #555;
+}
+
+.lineage-date {
+  color: #999;
+  font-size: 12px;
+}
+
