@@ -72,15 +72,19 @@
 }
 
 .nav-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #00d4ff 0%, #5b8def 50%, #b721ff 100%);
   color: white !important;
+  border: none;
   padding: 0.5rem 1.5rem;
   border-radius: 8px;
   font-weight: 600;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
 }
 
 .nav-button:hover {
-  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
 }
 
 /* Hero Section */
@@ -497,8 +501,9 @@
   content: '✓';
   position: absolute;
   left: 0;
-  color: #667eea;
+  color: #00d4ff;
   font-weight: 700;
+  text-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
 }
 
 .section-header {
@@ -518,7 +523,8 @@
 .graph-edge {
   width: 60px;
   height: 3px;
-  background: linear-gradient(90deg, #667eea, #764ba2);
+  background: linear-gradient(90deg, #00d4ff, #b721ff);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
 }
 
 /* Quick Start */
