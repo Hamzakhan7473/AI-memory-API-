@@ -9,20 +9,37 @@ import numpy as np
 logger = logging.getLogger(__name__)
 
 # Try to import OpenAI and sentence-transformers
+openai_client = None
 try:
     from openai import OpenAI
-    openai_client = None
-    if settings.openai_api_key:
-        openai_client = OpenAI(api_key=settings.openai_api_key)
+    # Only initialize if we have a valid API key
+    if settings.openai_api_key and settings.openai_api_key not in ["your_openai_api_key_here", "", None]:
+        try:
+            openai_client = OpenAI(api_key=settings.openai_api_key)
+            logger.info("OpenAI client initialized successfully")
+        except Exception as e:
+            logger.warning(f"Failed to initialize OpenAI client: {e}, using sentence-transformers")
+            openai_client = None
+    else:
+        logger.info("No OpenAI API key provided, using sentence-transformers")
 except ImportError:
+    logger.info("OpenAI library not available, using sentence-transformers")
     openai_client = None
 
 try:
     from sentence_transformers import SentenceTransformer
     sentence_model = None
-    if not settings.use_openai_embeddings:
-        sentence_model = SentenceTransformer(settings.embedding_model)
+    # Initialize sentence-transformers model (used as default or fallback)
+    if not settings.use_openai_embeddings or openai_client is None:
+        try:
+            logger.info(f"Loading sentence-transformers model: {settings.embedding_model}")
+            sentence_model = SentenceTransformer(settings.embedding_model)
+            logger.info("Sentence-transformers model loaded successfully")
+        except Exception as e:
+            logger.error(f"Failed to load sentence-transformers model: {e}")
+            sentence_model = None
 except ImportError:
+    logger.warning("sentence-transformers not available")
     sentence_model = None
 
 

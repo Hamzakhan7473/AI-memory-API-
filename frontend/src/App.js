@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
+import LandingPage from './LandingPage';
 import Dashboard from './components/Dashboard';
 import MemorySearch from './components/MemorySearch';
 import MemoryForm from './components/MemoryForm';
 import GraphStats from './components/GraphStats';
 
-function App() {
+function DashboardApp() {
   const [activeTab, setActiveTab] = useState('graph');
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
@@ -60,6 +62,18 @@ function App() {
         )}
       </main>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/dashboard" element={<DashboardApp />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
   );
 }
 
