@@ -13,8 +13,9 @@ const LandingPage = () => {
               <path d="M12 2L2 7V10C2 15.55 5.42 20.74 12 22C18.58 20.74 22 15.55 22 10V7L12 2Z" fill="url(#gradient)" stroke="currentColor" strokeWidth="1.5"/>
               <defs>
                 <linearGradient id="gradient" x1="2" y1="7" x2="22" y2="17" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#667eea"/>
-                  <stop offset="1" stopColor="#764ba2"/>
+                  <stop stopColor="#00d4ff"/>
+                  <stop offset="0.5" stopColor="#5b8def"/>
+                  <stop offset="1" stopColor="#b721ff"/>
                 </linearGradient>
               </defs>
             </svg>
