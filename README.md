@@ -1,8 +1,8 @@
 # AI Memory API Platform
 
-> A comprehensive memory management platform for AI applications that transforms user-provided text or PDFs into a dynamic knowledge graph with semantic understanding and real-time visualization.
+> A comprehensive memory management platform for AI applications that transforms user-provided text or PDFs into a dynamic knowledge graph with semantic understanding and real-time visualization. Enhanced with **MemMachine-inspired** agentic memory architecture.
 
-[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/Python-3.12+-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.109-green.svg)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/React-18.2-blue.svg)](https://reactjs.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -10,6 +10,7 @@
 ## 📋 Table of Contents
 
 - [Overview](#overview)
+- [MemMachine Integration](#memmachine-integration)
 - [Research Background](#research-background)
 - [Architecture](#architecture)
 - [Features](#features)
@@ -17,12 +18,15 @@
 - [Usage](#usage)
 - [API Documentation](#api-documentation)
 - [Performance](#performance)
+- [Roadmap & MemMachine Alignment](#roadmap--memmachine-alignment)
 - [Contributing](#contributing)
 - [References](#references)
 
 ## 🎯 Overview
 
 This project implements a **knowledge graph-based memory system** for AI applications, inspired by how human memory works - forming connections, evolving over time, and generating insights from accumulated knowledge. Unlike traditional document storage systems, this platform creates a **living knowledge graph** where memories are dynamically interconnected through semantic relationships.
+
+**Now enhanced with MemMachine-inspired architecture** for agentic workflows, enabling AI agents to learn, store, and recall data across multiple sessions, agents, and language models.
 
 ### Key Innovations
 
@@ -31,6 +35,30 @@ This project implements a **knowledge graph-based memory system** for AI applica
 3. **Version Lineage Tracking**: Complete evolution history of memories over time
 4. **Real-time Graph Visualization**: Interactive dashboard showing knowledge graph evolution
 5. **Sub-400ms Latency**: Optimized for low-latency semantic search and retrieval
+6. **Agentic Memory Architecture**: Session-based memory management for AI agents (MemMachine-inspired)
+
+## 🤖 MemMachine Integration
+
+This platform draws inspiration from **[MemMachine](https://docs.memmachine.ai/)**, an open-source memory layer for advanced AI agents. Key concepts integrated:
+
+### MemMachine Core Concepts
+
+- **Agentic Workflows**: Memory designed for AI agent interactions across sessions
+- **Session Management**: Multi-session memory persistence with `group_id`, `agent_id`, `user_id`, `session_id`
+- **Episode-Based Memories**: Memories structured as episodes with producer/recipient information
+- **Cross-Agent Memory**: Memory that persists across different agents and LLMs
+- **Personalized Memory**: Building evolving user profiles from accumulated interactions
+
+### Alignment Strategy
+
+While maintaining our unique knowledge graph architecture, we're enhancing the platform with:
+
+1. **Session-Aware Memory**: Memories linked to specific sessions, users, and agents
+2. **Episode Structure**: Producer/recipient tracking for agentic workflows
+3. **Multi-Tenant Support**: Group-based organization for team/organizational memory
+4. **Agent Context**: Memory retrieval scoped to agent-user-session context
+
+See [Roadmap & MemMachine Alignment](#roadmap--memmachine-alignment) for planned enhancements.
 
 ## 📚 Research Background
 
@@ -41,18 +69,21 @@ Traditional AI memory systems store information as static documents without unde
 - Track how information changes over time
 - Infer new insights from existing knowledge
 - Provide personalized responses based on accumulated knowledge
+- Support multi-agent workflows with shared context
 
 ### Theoretical Foundation
 
 This implementation draws from several research areas:
 
 1. **Knowledge Graphs in AI** (Pan et al., 2023): Knowledge graphs enable structured representation of information with explicit relationships
-2. **Memory Systems for LLMs**: Inspired by Mem0 and Supermemory architectures
+2. **Memory Systems for LLMs**: Inspired by Mem0, Supermemory, and **MemMachine** architectures
 3. **Semantic Search**: Vector embeddings enable understanding beyond keyword matching
 4. **Graph Databases**: Neo4j enables efficient relationship traversal
+5. **Agentic Memory**: Session-based memory for AI agent workflows (MemMachine)
 
 ### Related Work
 
+- **[MemMachine.ai](https://docs.memmachine.ai/)**: Open-source memory layer for AI agents with session management
 - **Supermemory.ai**: Knowledge graph architecture with relationship types
 - **Mem0.ai**: Layered memory system (conversation, session, user, organizational)
 - **Pinecone**: Vector database for semantic search
@@ -95,9 +126,10 @@ This implementation draws from several research areas:
 
 1. **Input Processing**: Text/PDF → Chunking → Embedding Generation
 2. **Memory Storage**: ChromaDB (vectors) + Neo4j (graph relationships)
-3. **Relationship Inference**: Semantic similarity → Relationship creation
-4. **Query Processing**: Natural language → Embedding → Similarity search → Subgraph retrieval
-5. **Visualization**: Graph data → Interactive network visualization
+3. **Session Context**: Memories linked to sessions, users, and agents (MemMachine-inspired)
+4. **Relationship Inference**: Semantic similarity → Relationship creation
+5. **Query Processing**: Natural language → Embedding → Similarity search → Subgraph retrieval
+6. **Visualization**: Graph data → Interactive network visualization
 
 ## ✨ Features
 
@@ -129,6 +161,14 @@ This implementation draws from several research areas:
    - Shows implicit relationships
    - Use case: Pattern recognition, insight generation
 
+### Planned MemMachine Features (Roadmap)
+
+- 🔄 **Session Management**: Multi-session memory with session_id tracking
+- 🔄 **Agent Context**: Memories scoped to specific agents and users
+- 🔄 **Episode Structure**: Producer/recipient fields for agentic workflows
+- 🔄 **Group-Based Organization**: Multi-tenant memory with group_id
+- 🔄 **Cross-Agent Memory**: Shared memory across different agents
+
 ### Research Contributions
 
 1. **Hybrid Storage Architecture**: Combining vector database (ChromaDB) and graph database (Neo4j) for optimal semantic search and relationship traversal
@@ -139,13 +179,16 @@ This implementation draws from several research areas:
 
 4. **Real-time Graph Updates**: WebSocket-based live updates for collaborative knowledge building
 
+5. **Agentic Memory Foundation**: Session-based architecture for AI agent workflows
+
 ## 🚀 Installation
 
 ### Prerequisites
 
-- Python 3.8+
-- Node.js 16+
-- Neo4j (optional for development, recommended for production)
+- **Python 3.12+** (MemMachine recommends 3.12+)
+- **Node.js 16+**
+- **Neo4j** (optional for development, recommended for production)
+- **OpenAI API Key** (optional but recommended for better embeddings)
 - npm or yarn
 
 ### Quick Setup
@@ -160,8 +203,17 @@ chmod +x run.sh
 ./run.sh
 
 # Configure environment
-cp .env.example .env
+cp env.example .env
 # Edit .env with your configuration
+```
+
+### Docker Setup (MemMachine-Style)
+
+For a MemMachine-inspired Docker setup:
+
+```bash
+# Create docker-compose.yml (see examples in docs/)
+docker-compose up -d
 ```
 
 ### Manual Installation
@@ -169,7 +221,7 @@ cp .env.example .env
 ```bash
 # Backend setup
 python3 -m venv venv
-source venv/bin/activate
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
 # Frontend setup
@@ -188,6 +240,8 @@ docker run -p 7474:7474 -p 7687:7687 \
   neo4j:latest
 ```
 
+**Note**: For MemMachine compatibility, ensure Neo4j host in configuration matches Docker network name (not `localhost`).
+
 **ChromaDB:**
 - Automatically uses local storage (no setup required)
 - Configured via `CHROMA_PERSIST_DIR` in `.env`
@@ -199,7 +253,7 @@ docker run -p 7474:7474 -p 7687:7687 \
 **Backend:**
 ```bash
 source venv/bin/activate
-uvicorn app.main:app --reload
+uvicorn app.main:app --reload --port 8000
 ```
 
 **Frontend:**
@@ -232,7 +286,7 @@ curl -X POST "http://localhost:8000/api/memories/" \
 curl -X POST "http://localhost:8000/api/search/" \
   -H "Content-Type: application/json" \
   -d '{
-    "query": "What is the user's job?",
+    "query": "What is the user'\''s job?",
     "limit": 10,
     "min_similarity": 0.7
   }'
@@ -246,9 +300,47 @@ curl -X POST "http://localhost:8000/api/memories/from-pdf" \
   -F "overlap=200"
 ```
 
+### MemMachine-Style API (Planned)
+
+Future API will support session-based operations:
+
+```bash
+# Get all sessions
+curl http://localhost:8000/v1/sessions
+
+# Create memory with session context
+curl -X POST "http://localhost:8000/v1/memories" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "session": {
+      "group_id": "team_alpha",
+      "agent_id": ["agent_001"],
+      "user_id": ["user_123"],
+      "session_id": "session_456"
+    },
+    "producer": "user_123",
+    "produced_for": "agent_001",
+    "episode_content": "User prefers dark mode interface",
+    "episode_type": "preference"
+  }'
+
+# Search within session context
+curl -X POST "http://localhost:8000/v1/memories/search" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "session": {
+      "group_id": "team_alpha",
+      "agent_id": ["agent_001"],
+      "user_id": ["user_123"]
+    },
+    "query": "user preferences",
+    "limit": 5
+  }'
+```
+
 ## 📡 API Documentation
 
-### Memory Endpoints
+### Current Memory Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -280,6 +372,15 @@ curl -X POST "http://localhost:8000/api/memories/from-pdf" \
 |----------|-------------|
 | `ws://localhost:8000/api/ws` | Real-time updates for new memories/relationships |
 
+### Planned MemMachine Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/v1/sessions` | Get all sessions |
+| POST | `/v1/memories` | Create memory with session context |
+| POST | `/v1/memories/search` | Search memories within session context |
+| DELETE | `/v1/memories` | Delete session memories |
+
 See [API Reference](docs/API.md) for detailed documentation.
 
 ## ⚡ Performance
@@ -305,6 +406,36 @@ See [API Reference](docs/API.md) for detailed documentation.
 - **Database Sharding**: ChromaDB supports collection partitioning
 - **Graph Partitioning**: Neo4j supports graph partitioning strategies
 - **Caching Layer**: Redis integration ready for distributed caching
+- **Session Isolation**: MemMachine-style session scoping for multi-tenant support
+
+## 🗺️ Roadmap & MemMachine Alignment
+
+### Phase 1: Session Management (Next)
+- [ ] Add session model with `session_id`, `user_id`, `agent_id`, `group_id`
+- [ ] Implement `/v1/sessions` endpoint
+- [ ] Update memory creation to support session context
+- [ ] Session-scoped memory retrieval
+
+### Phase 2: Episode Structure
+- [ ] Add `producer` and `produced_for` fields to memories
+- [ ] Implement `episode_type` and `episode_content` structure
+- [ ] Update API to match MemMachine episode format
+
+### Phase 3: Agentic Workflows
+- [ ] Multi-agent memory sharing
+- [ ] Cross-session memory retrieval
+- [ ] Agent-specific memory filters
+
+### Phase 4: Docker Deployment
+- [ ] Docker Compose setup (MemMachine-style)
+- [ ] Automated health checks
+- [ ] Configuration via `cfg.yml` or environment variables
+
+### Phase 5: Advanced Features
+- [ ] Memory export/import
+- [ ] Advanced analytics and insights
+- [ ] Authentication and authorization
+- [ ] Rate limiting and quotas
 
 ## 🤝 Contributing
 
@@ -322,6 +453,7 @@ Contributions are welcome! Please follow these steps:
 - Use TypeScript for frontend (optional)
 - Write tests for new features
 - Update documentation for API changes
+- Consider MemMachine compatibility for new features
 
 ## 📚 References
 
@@ -333,6 +465,7 @@ Contributions are welcome! Please follow these steps:
 
 ### Related Projects
 
+- **[MemMachine.ai](https://docs.memmachine.ai/)** - Open-source memory layer for AI agents
 - [Supermemory.ai](https://supermemory.ai/docs/how-it-works) - Knowledge graph architecture
 - [Mem0.ai](https://docs.mem0.ai/core-concepts/memory-types) - Layered memory system
 - [Pinecone Documentation](https://docs.pinecone.io/guides/index-data/upsert-data) - Vector database
@@ -344,6 +477,7 @@ Contributions are welcome! Please follow these steps:
 - [Neo4j Documentation](https://neo4j.com/docs/)
 - [ChromaDB Documentation](https://docs.trychroma.com/)
 - [vis-network Documentation](https://visjs.github.io/vis-network/docs/network/)
+- [MemMachine Documentation](https://docs.memmachine.ai/)
 
 ## 📄 License
 
@@ -358,10 +492,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- Inspired by Supermemory.ai and Mem0.ai architectures
+- Inspired by **MemMachine.ai**, Supermemory.ai, and Mem0.ai architectures
 - Built with FastAPI, React, Neo4j, and ChromaDB
 - Special thanks to the open-source community
 
 ---
 
 **⭐ If you find this project useful, please consider giving it a star!**
+
+**🔄 MemMachine Integration**: We're actively working on aligning with MemMachine's agentic memory architecture. See [Roadmap](#roadmap--memmachine-alignment) for progress.
