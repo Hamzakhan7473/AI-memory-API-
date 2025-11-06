@@ -7,6 +7,7 @@ from app.services.memory_service import memory_service
 from app.core.embeddings import get_embedding
 import logging
 import time
+import json
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -57,13 +58,23 @@ async def search_memories(search_data: MemorySearch):
                     """, {"memory_ids": memory_ids})
                     
                     for record in result:
+                        # Parse metadata from JSON string (Neo4j stores it as string)
+                        metadata_str = record.get("metadata", "{}")
+                        try:
+                            if isinstance(metadata_str, str):
+                                metadata = json.loads(metadata_str)
+                            else:
+                                metadata = dict(metadata_str) if metadata_str else {}
+                        except (json.JSONDecodeError, TypeError):
+                            metadata = {}
+                        
                         relationships.append(Relationship(
                             id=record.get("rel_id", ""),
                             source_id=record["source_id"],
                             target_id=record["target_id"],
                             relationship_type=record["rel_type"].lower(),
                             confidence=record.get("confidence", 0.5),
-                            metadata=dict(record.get("metadata", {})),
+                            metadata=metadata,
                             created_at=record.get("created_at")
                         ))
                 finally:

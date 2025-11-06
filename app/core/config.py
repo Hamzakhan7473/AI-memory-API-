@@ -11,6 +11,9 @@ class Settings(BaseSettings):
     # OpenAI Configuration
     openai_api_key: Optional[str] = None
     
+    # Cohere Configuration (for reranking)
+    cohere_api_key: Optional[str] = None
+    
     # Neo4j Configuration
     neo4j_uri: str = "bolt://localhost:7687"
     neo4j_user: str = "neo4j"

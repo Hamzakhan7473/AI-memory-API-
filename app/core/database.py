@@ -2,7 +2,7 @@
 Database connections and setup
 """
 from neo4j import GraphDatabase
-from chromadb import Client, Settings as ChromaSettings
+from chromadb import PersistentClient, Settings as ChromaSettings
 from app.core.config import settings
 import logging
 
@@ -57,10 +57,10 @@ class ChromaDBConnection:
         try:
             import os
             os.makedirs(settings.chroma_persist_dir, exist_ok=True)
-            self.client = Client(
+            self.client = PersistentClient(
+                path=settings.chroma_persist_dir,
                 settings=ChromaSettings(
-                    anonymized_telemetry=False,
-                    persist_directory=settings.chroma_persist_dir
+                    anonymized_telemetry=False
                 )
             )
             # Create or get collection for memories
