@@ -6,6 +6,9 @@ import Dashboard from './components/Dashboard';
 import MemorySearch from './components/MemorySearch';
 import MemoryForm from './components/MemoryForm';
 import GraphStats from './components/GraphStats';
+import MemMachineTest from './components/MemMachineTest';
+import AdvancedGraphSearch from './components/AdvancedGraphSearch';
+import UseCaseSelector from './components/UseCaseSelector';
 
 function DashboardApp() {
   const [activeTab, setActiveTab] = useState('graph');
@@ -44,6 +47,24 @@ function DashboardApp() {
           >
             Statistics
           </button>
+          <button 
+            className={activeTab === 'memmachine' ? 'active' : ''}
+            onClick={() => setActiveTab('memmachine')}
+          >
+            MemMachine Test
+          </button>
+          <button 
+            className={activeTab === 'advanced-search' ? 'active' : ''}
+            onClick={() => setActiveTab('advanced-search')}
+          >
+            Advanced Search
+          </button>
+          <button 
+            className={activeTab === 'use-cases' ? 'active' : ''}
+            onClick={() => setActiveTab('use-cases')}
+          >
+            Use Cases
+          </button>
         </nav>
       </header>
 
@@ -59,6 +80,15 @@ function DashboardApp() {
         )}
         {activeTab === 'stats' && (
           <GraphStats refreshTrigger={refreshTrigger} />
+        )}
+        {activeTab === 'memmachine' && (
+          <MemMachineTest />
+        )}
+        {activeTab === 'advanced-search' && (
+          <AdvancedGraphSearch />
+        )}
+        {activeTab === 'use-cases' && (
+          <UseCaseSelector />
         )}
       </main>
     </div>

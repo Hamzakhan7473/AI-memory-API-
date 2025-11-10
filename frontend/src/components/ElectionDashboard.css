@@ -1,0 +1,336 @@
+.election-dashboard {
+  background: #f8fafc;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.election-header {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.election-header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.election-header p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.election-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr 250px;
+  gap: 2rem;
+}
+
+.candidate-sidebar {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+
+.candidate-sidebar h2 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: #1f2937;
+}
+
+.candidate-list {
+  margin-bottom: 1rem;
+}
+
+.candidate-item {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+}
+
+.candidate-item:hover {
+  background: #f3f4f6;
+}
+
+.candidate-item.active {
+  background: #ede9fe;
+  border-color: #8b5cf6;
+}
+
+.candidate-icon {
+  font-size: 2rem;
+  margin-right: 1rem;
+}
+
+.candidate-info {
+  flex: 1;
+}
+
+.candidate-name {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.25rem;
+}
+
+.candidate-meta {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.add-candidate-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #8b5cf6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.election-main {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.statement-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.statement-header h2 {
+  font-size: 1.5rem;
+  color: #1f2937;
+}
+
+.statement-filters {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.statement-filters button {
+  padding: 0.5rem 1rem;
+  border: 2px solid #e5e7eb;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.statement-filters button:hover {
+  border-color: #8b5cf6;
+}
+
+.statement-filters button.active {
+  background: #8b5cf6;
+  color: white;
+  border-color: #8b5cf6;
+}
+
+.statement-stats {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.new-statement {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.new-statement textarea {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  resize: vertical;
+  margin-bottom: 1rem;
+  font-family: inherit;
+}
+
+.new-statement textarea:focus {
+  outline: none;
+  border-color: #8b5cf6;
+}
+
+.create-btn {
+  padding: 0.75rem 1.5rem;
+  background: #8b5cf6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.create-btn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.create-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.statements-list h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: #1f2937;
+}
+
+.statement-card {
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  transition: all 0.2s;
+}
+
+.statement-card:hover {
+  border-color: #8b5cf6;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.statement-card .statement-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.statement-date {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.statement-verifiable {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.statement-content {
+  color: #374151;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.statement-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.topic-tag {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.borough-tag {
+  background: #fce7f3;
+  color: #be185d;
+}
+
+.promise-type {
+  padding: 0.75rem;
+  background: #f3f4f6;
+  border-radius: 6px;
+  color: #374151;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: #6b7280;
+}
+
+.empty-state-large {
+  text-align: center;
+  padding: 4rem;
+  color: #6b7280;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.stats-sidebar {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+}
+
+.stats-sidebar h2 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: #1f2937;
+}
+
+.stat-card {
+  background: #f9fafb;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.stat-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.stat-card .stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #8b5cf6;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.stat-card .stat-label {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 1200px) {
+  .election-layout {
+    grid-template-columns: 250px 1fr;
+  }
+  
+  .stats-sidebar {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .election-layout {
+    grid-template-columns: 1fr;
+  }
+}
+

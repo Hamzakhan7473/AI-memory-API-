@@ -15,6 +15,7 @@ build/
 chroma_db/
 *.db
 *.sqlite
+cfg.yml
 
 node_modules/
 frontend/build/

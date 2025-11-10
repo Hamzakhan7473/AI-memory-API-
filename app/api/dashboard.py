@@ -7,6 +7,7 @@ from app.core.models import GraphVisualization, GraphNode, GraphEdge
 from app.services.memory_service import memory_service
 from app.core.database import get_neo4j
 import logging
+import json
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -44,6 +45,18 @@ async def get_graph_visualization(
         
         result = session.run(query, {"limit": limit * 2})  # Get more to account for relationships
         
+        def parse_metadata(metadata_value):
+            """Parse metadata from JSON string or dict"""
+            try:
+                if isinstance(metadata_value, str):
+                    return json.loads(metadata_value)
+                elif isinstance(metadata_value, dict):
+                    return dict(metadata_value)
+                else:
+                    return {}
+            except (json.JSONDecodeError, TypeError):
+                return {}
+        
         nodes_dict = {}
         edges = []
         
@@ -56,7 +69,7 @@ async def get_graph_visualization(
                     id=source_id,
                     label=source_node["content"][:50] + "..." if len(source_node["content"]) > 50 else source_node["content"],
                     content=source_node["content"],
-                    metadata=dict(source_node.get("metadata", {})),
+                    metadata=parse_metadata(source_node.get("metadata", {})),
                     created_at=source_node["created_at"],
                     is_latest=source_node.get("is_latest", True)
                 )
@@ -69,7 +82,7 @@ async def get_graph_visualization(
                     id=target_id,
                     label=target_node["content"][:50] + "..." if len(target_node["content"]) > 50 else target_node["content"],
                     content=target_node["content"],
-                    metadata=dict(target_node.get("metadata", {})),
+                    metadata=parse_metadata(target_node.get("metadata", {})),
                     created_at=target_node["created_at"],
                     is_latest=target_node.get("is_latest", True)
                 )
@@ -102,7 +115,7 @@ async def get_graph_visualization(
                     id=node_id,
                     label=node["content"][:50] + "..." if len(node["content"]) > 50 else node["content"],
                     content=node["content"],
-                    metadata=dict(node.get("metadata", {})),
+                    metadata=parse_metadata(node.get("metadata", {})),
                     created_at=node["created_at"],
                     is_latest=node.get("is_latest", True)
                 )
@@ -111,9 +124,10 @@ async def get_graph_visualization(
         stats = {}
         stats_result = session.run("""
             MATCH (m:Memory)
+            OPTIONAL MATCH (m)-[r]->()
             RETURN count(m) as total_memories,
                    count(DISTINCT CASE WHEN m.is_latest THEN 1 END) as latest_memories,
-                   count((m)-[]->()) as total_relationships
+                   count(r) as total_relationships
         """).single()
         
         if stats_result:

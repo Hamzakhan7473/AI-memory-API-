@@ -5,6 +5,7 @@ from typing import List, Optional, Dict, Any
 from datetime import datetime
 import uuid
 import logging
+import json
 from app.core.models import Memory, Relationship, RelationshipType
 from app.core.database import get_neo4j, get_chroma
 from app.core.embeddings import get_embedding, cosine_similarity
@@ -55,22 +56,45 @@ class MemoryService:
         )
         
         # Store embedding in ChromaDB
-        self.chroma.collection.add(
-            ids=[memory_id],
-            embeddings=[embedding],
-            documents=[content],
-            metadatas=[{
-                "source_type": source_type,
-                "source_id": source_id or "",
-                "created_at": memory.created_at.isoformat(),
-                **memory.metadata
-            }]
-        )
+        # ChromaDB metadata must be flat (no nested dicts/lists)
+        # Serialize nested values to JSON strings
+        flat_metadata = {
+            "source_type": source_type,
+            "source_id": source_id or "",
+            "created_at": memory.created_at.isoformat(),
+        }
+        # Flatten metadata - convert lists/dicts to JSON strings
+        # ChromaDB doesn't accept None values, so filter them out
+        for key, value in (memory.metadata or {}).items():
+            if value is None:
+                continue  # Skip None values
+            elif isinstance(value, (list, dict)):
+                flat_metadata[key] = json.dumps(value)
+            else:
+                flat_metadata[key] = value
+        
+        # Add to ChromaDB with error handling
+        try:
+            self.chroma.collection.add(
+                ids=[memory_id],
+                embeddings=[embedding],
+                documents=[content],
+                metadatas=[flat_metadata]
+            )
+            logger.debug(f"Successfully added memory {memory_id} to ChromaDB")
+        except Exception as e:
+            logger.error(f"Failed to add memory {memory_id} to ChromaDB: {e}")
+            # Don't fail the entire operation if ChromaDB fails
+            # Memory is still stored in Neo4j
         
         # Store in Neo4j graph
         session = self.neo4j.get_session()
         if session:
             try:
+                # Convert metadata dict to JSON string for Neo4j storage
+                # Neo4j doesn't support nested objects as property values
+                metadata_json = json.dumps(memory.metadata) if memory.metadata else "{}"
+                
                 session.run("""
                     CREATE (m:Memory {
                         id: $id,
@@ -92,7 +116,7 @@ class MemoryService:
                     "updated_at": memory.updated_at.isoformat(),
                     "version": 1,
                     "is_latest": True,
-                    "metadata": memory.metadata
+                    "metadata": metadata_json
                 })
             finally:
                 session.close()
@@ -124,11 +148,37 @@ class MemoryService:
             if chroma_result["embeddings"]:
                 embedding = chroma_result["embeddings"][0]
             
+            # Parse metadata from JSON string (Neo4j stores it as string)
+            metadata_str = node.get("metadata", "{}")
+            try:
+                if isinstance(metadata_str, str):
+                    metadata = json.loads(metadata_str)
+                else:
+                    metadata = dict(metadata_str) if metadata_str else {}
+            except (json.JSONDecodeError, TypeError):
+                metadata = {}
+            
+            # Parse any nested JSON strings in metadata (tags, authors, etc.)
+            # These were serialized when storing in ChromaDB
+            parsed_metadata = {}
+            for key, value in metadata.items():
+                if isinstance(value, str):
+                    # Try to parse as JSON if it looks like JSON
+                    if value.startswith('[') or value.startswith('{'):
+                        try:
+                            parsed_metadata[key] = json.loads(value)
+                        except (json.JSONDecodeError, ValueError):
+                            parsed_metadata[key] = value
+                    else:
+                        parsed_metadata[key] = value
+                else:
+                    parsed_metadata[key] = value
+            
             return Memory(
                 id=node["id"],
                 content=node["content"],
                 embedding=embedding,
-                metadata=dict(node.get("metadata", {})),
+                metadata=parsed_metadata,
                 created_at=datetime.fromisoformat(node["created_at"]),
                 updated_at=datetime.fromisoformat(node.get("updated_at", node["created_at"])),
                 version=node.get("version", 1),
@@ -172,6 +222,9 @@ class MemoryService:
             session = self.neo4j.get_session()
             if session:
                 try:
+                    # Convert metadata dict to JSON string for Neo4j storage
+                    metadata_json = json.dumps(existing.metadata) if existing.metadata else "{}"
+                    
                     session.run("""
                         MATCH (m:Memory {id: $id})
                         SET m.updated_at = $updated_at,
@@ -179,7 +232,7 @@ class MemoryService:
                     """, {
                         "id": memory_id,
                         "updated_at": datetime.utcnow().isoformat(),
-                        "metadata": existing.metadata
+                        "metadata": metadata_json
                     })
                 finally:
                     session.close()
@@ -246,13 +299,16 @@ class MemoryService:
                 query = f"""
                     MATCH (source:Memory {{id: $source_id}})
                     MATCH (target:Memory {{id: $target_id}})
-                    CREATE (source)-[r:{rel_type}] {{
+                    CREATE (source)-[r:{rel_type} {{
                         id: $rel_id,
                         confidence: $confidence,
                         created_at: $created_at,
                         metadata: $metadata
-                    }}->(target)
+                    }}]->(target)
                 """
+                
+                # Convert metadata dict to JSON string for Neo4j storage
+                metadata_json = json.dumps(relationship.metadata) if relationship.metadata else "{}"
                 
                 session.run(query, {
                     "source_id": source_id,
@@ -260,7 +316,7 @@ class MemoryService:
                     "rel_id": rel_id,
                     "confidence": confidence,
                     "created_at": relationship.created_at.isoformat(),
-                    "metadata": relationship.metadata
+                    "metadata": metadata_json
                 })
             finally:
                 session.close()
@@ -283,12 +339,19 @@ class MemoryService:
         # Generate query embedding
         query_embedding = get_embedding(query)
         
-        # Search in ChromaDB
-        results = self.chroma.collection.query(
-            query_embeddings=[query_embedding],
-            n_results=limit,
-            include=["documents", "metadatas", "distances"]
-        )
+        # Search in ChromaDB - get more results than requested to filter by similarity
+        # ChromaDB doesn't support filtering by similarity directly, so we fetch more
+        search_limit = max(limit * 3, 50)  # Get more results to filter
+        
+        try:
+            results = self.chroma.collection.query(
+                query_embeddings=[query_embedding],
+                n_results=search_limit,
+                include=["documents", "metadatas", "distances"]
+            )
+        except Exception as e:
+            logger.error(f"Error querying ChromaDB: {e}")
+            return []
         
         if not results["ids"] or not results["ids"][0]:
             return []
@@ -301,6 +364,10 @@ class MemoryService:
             if similarity >= min_similarity:
                 content = results["documents"][0][i]
                 memories.append((memory_id, similarity, content))
+                
+                # Stop once we have enough results
+                if len(memories) >= limit:
+                    break
         
         return memories
     

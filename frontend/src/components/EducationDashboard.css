@@ -1,0 +1,236 @@
+.education-dashboard {
+  background: #f8fafc;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.edu-header {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.edu-header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.edu-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+}
+
+.concepts-sidebar {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+
+.concepts-sidebar h2 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: #1f2937;
+}
+
+.concept-item {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+}
+
+.concept-item:hover {
+  background: #f3f4f6;
+}
+
+.concept-item.active {
+  background: #d1fae5;
+  border-color: #10b981;
+}
+
+.concept-icon {
+  font-size: 2rem;
+  margin-right: 1rem;
+}
+
+.concept-name {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.concept-meta {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.edu-main {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.edu-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.tab {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 500;
+  color: #6b7280;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+}
+
+.tab.active {
+  color: #10b981;
+  border-bottom-color: #10b981;
+}
+
+.create-concept {
+  max-width: 800px;
+}
+
+.create-concept h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #1f2937;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #10b981;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.create-btn {
+  padding: 0.75rem 2rem;
+  background: #10b981;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.create-btn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.learning-path {
+  max-width: 1000px;
+}
+
+.learning-path h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #1f2937;
+}
+
+.path-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.path-section {
+  background: #f9fafb;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 2px solid #e5e7eb;
+}
+
+.path-section h3 {
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+  color: #1f2937;
+}
+
+.path-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.path-section li {
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  background: white;
+  border-radius: 6px;
+  border-left: 3px solid #10b981;
+}
+
+.path-section .empty {
+  color: #6b7280;
+  font-style: italic;
+}
+
+.graph-view {
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  background: white;
+}
+
+@media (max-width: 768px) {
+  .edu-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .path-info {
+    grid-template-columns: 1fr;
+  }
+}
+

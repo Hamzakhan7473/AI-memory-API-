@@ -107,6 +107,10 @@ This implementation draws from several research areas:
                               └──────────────┘
 ```
 
+### MemMachine-Aligned High-Level Diagram
+
+![MemMachine RAG Architecture](docs/assets/memmachine-architecture.jpg)
+
 ### Technology Stack
 
 **Backend:**
